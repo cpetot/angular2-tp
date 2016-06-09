@@ -14,4 +14,12 @@ export class CollaboratorService {
       collaborators => collaborators.filter(collaborator => collaborator.id === id)[0]
     );
   }
+  //Méthode permettant de renvoyer les managers pour un collaborateur
+  //On a besoin de l'id du collaborateur pour filtrer et ne pas le remonter lui-même
+  //dans le résultat
+  getManagersForId(id : number) {
+    return Promise.resolve(COLLABORATORS).then(
+      collaborators => collaborators.filter(collaborator => collaborator.id != id)
+    );
+  }
 }

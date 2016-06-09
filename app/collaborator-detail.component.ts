@@ -16,6 +16,7 @@ export class CollaboratorDetailComponent implements OnInit {
   // true ==> on vient par le path, donc on peut faire un retour à la page précédente(back)
   // false ==> utilisation sous forme de composant, on ne peut pas retourner à la page précédente
   isBackAvailable : boolean = false;
+  managers : Collaborator[] = [];
 
   constructor(
     private _collaboratorService: CollaboratorService,
@@ -23,14 +24,27 @@ export class CollaboratorDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    Promise.resolve(this.getCurrentCollaborator()).then(() =>
+          this.getManagers()
+      );
+  }
+
+  getCurrentCollaborator() {
     //Si on a passé le paramètre collaborateur à notre composant par le biais du tag
     //on ne cherche pas dans le routeParams car la valeur est déjà renseignée.
     if(this.collaborator == undefined) {
       let id = +this._routeParams.get('id');
-      this._collaboratorService.getCollaborator(id)
-        .then(collaborator => this.collaborator = collaborator);
       this.isBackAvailable = true;
+      return this._collaboratorService.getCollaborator(id)
+        .then(collaborator => this.collaborator = collaborator);
+    } else {
+      return Promise.resolve(this.collaborator);
     }
+  }
+
+  getManagers() {
+    this._collaboratorService.getManagersForId(this.collaborator.id)
+      .then(managers => this.managers = managers);
   }
 
   goBack() {
