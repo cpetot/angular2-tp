@@ -35,5 +35,5 @@ import { CollaboratorService } from './collaborator.service';
   }
 ])
 export class AppComponent {
-  title = 'Trombinoscope';
+  title = 'Trombinoscope Viseo';
 }

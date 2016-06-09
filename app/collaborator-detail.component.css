@@ -24,6 +24,14 @@ button:hover {
 }
 button:disabled {
   background-color: #eee;
-  color: #ccc; 
+  color: #ccc;
   cursor: auto;
+}
+
+.form-element {
+  margin-bottom: 3px;
+}
+
+.form-element label {
+  width : 6em;
 }

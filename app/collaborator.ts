@@ -1,4 +1,5 @@
 export class Collaborator {
   id: number;
-  name: string;
+  name : string;
+  surname : string;
 }

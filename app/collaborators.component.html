@@ -1,6 +1,6 @@
 <div>
-  <h2>Collaborateur</h2>
-  <ul class="heroes">
+  <h2>Collaborateurs</h2>
+  <ul class="collaborators">
     <li *ngFor="#collaborator of collaborators"
       [class.selected]="collaborator === collaboratorHero"
       (click)="onSelect(collaborator)">
@@ -8,7 +8,7 @@
     </li>
   </ul>
   <div *ngIf="selectedCollaborator">
-    <h2>{{selectedCollaborator.name | uppercase}} est mon collaborateur</h2>
+    <h2>{{selectedCollaborator.name | uppercase}} {{selectedCollaborator.surname}} est mon collaborateur</h2>
     <button (click)="gotoDetail()">Voir en détail</button>
   </div>
 </div>
