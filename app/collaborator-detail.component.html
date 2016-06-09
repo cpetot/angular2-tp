@@ -1,6 +1,7 @@
-<div *ngIf="collaborator" class="row">
+<div *ngIf="collaborator">
+
   <h2>Détails de {{collaborator.name}}!</h2>
-  <div class="col-sm-2">
+  <div>
     <div class= "form-element">
       <label>Id: </label>{{collaborator.id}}</div>
     <div class= "form-element">
@@ -15,10 +16,17 @@
       <label for="collab-image">Photo: </label>
       <input id="collab-image" type="file" (change)="onImageSelected($event)"/>
     </div>
-  </div>
 
-  <div class="collab-image col-sm-2" *ngIf="collaborator.image">
+    <div class= "form-element">
+      <label for="collab-manager">Manager: </label>
+      <select id="collab-manager" [(ngModel)]="collaborator.manager">
+          <option></option>
+          <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="collab-image" *ngIf="collaborator.image">
     <img [src]="collaborator.image" class="img-thumbnail img-circle"/>
   </div>
+  <button (click)="goBack()">Retour</button>
 </div>
-<button (click)="goBack()">Retour</button>

@@ -14,4 +14,13 @@ export class CollaboratorService {
       collaborators => collaborators.filter(collaborator => collaborator.id === id)[0]
     );
   }
+
+  /**
+   *  Récupération des managers possible pour le collaborateur en paramètre
+  **/
+  getAvailableManagers(collaborator : Collaborator) {
+    return Promise.resolve(COLLABORATORS).then(
+      collaborators => collaborators.filter(collab => collab.id != collaborator.id)
+    );
+  }
 }
