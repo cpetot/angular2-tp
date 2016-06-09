@@ -1,0 +1,14 @@
+<div>
+  <h2>Collaborateur</h2>
+  <ul class="heroes">
+    <li *ngFor="#collaborator of collaborators"
+      [class.selected]="collaborator === collaboratorHero"
+      (click)="onSelect(collaborator)">
+      <span class="badge">{{collaborator.id}}</span> {{collaborator.name}}
+    </li>
+  </ul>
+  <div *ngIf="selectedCollaborator">
+    <h2>{{selectedCollaborator.name | uppercase}} est mon collaborateur</h2>
+    <button (click)="gotoDetail()">Voir en détail</button>
+  </div>
+</div>
