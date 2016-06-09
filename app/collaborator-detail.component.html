@@ -1,14 +1,24 @@
-<div *ngIf="collaborator">
+<div *ngIf="collaborator" class="row">
   <h2>Détails de {{collaborator.name}}!</h2>
-  <div class= "form-element">
-    <label>Id: </label>{{collaborator.id}}</div>
-  <div class= "form-element">
-    <label for="collab-name">Nom: </label>
-    <input id="collab-name" [(ngModel)]="collaborator.name" placeholder="name" />
+  <div class="col-sm-2">
+    <div class= "form-element">
+      <label>Id: </label>{{collaborator.id}}</div>
+    <div class= "form-element">
+      <label for="collab-name">Nom: </label>
+      <input id="collab-name" [(ngModel)]="collaborator.name" placeholder="name" />
+    </div>
+    <div class= "form-element">
+      <label for="collab-surname">Prénom: </label>
+      <input id="collab-surname" [(ngModel)]="collaborator.surname" placeholder="surname" />
+    </div>
+    <div class= "form-element">
+      <label for="collab-image">Photo: </label>
+      <input id="collab-image" type="file" (change)="onImageSelected($event)"/>
+    </div>
   </div>
-  <div class= "form-element">
-    <label for="collab-surname">Prénom: </label>
-    <input id="collab-surname"[(ngModel)]="collaborator.surname" placeholder="surname" />
+
+  <div class="collab-image col-sm-2" *ngIf="collaborator.image">
+    <img [src]="collaborator.image" class="img-thumbnail img-circle"/>
   </div>
-  <button (click)="goBack()">Retour</button>
 </div>
+<button (click)="goBack()">Retour</button>

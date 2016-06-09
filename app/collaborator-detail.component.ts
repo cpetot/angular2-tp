@@ -26,4 +26,15 @@ export class CollaboratorDetailComponent implements OnInit {
   goBack() {
     window.history.back();
   }
+
+  onImageSelected($event: any) {
+    let file: File = $event.srcElement.files[0];
+    let fileReader : FileReader= new FileReader();
+    // TODO Understand how to pass 'this' to onLoad function
+    let that = this;
+    fileReader.onload = function (e : ProgressEvent) {
+      that.collaborator.image = fileReader.result;
+    };
+    fileReader.readAsDataURL(file);
+  }
 }
