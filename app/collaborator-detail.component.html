@@ -10,5 +10,5 @@
     <label for="collab-surname">Prénom: </label>
     <input id="collab-surname"[(ngModel)]="collaborator.surname" placeholder="surname" />
   </div>
-  <button (click)="goBack()">Retour</button>
+  <button (click)="goBack()" *ngIf="isBackAvailable">Retour</button>
 </div>

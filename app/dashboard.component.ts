@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this._collaboratorService.getCollaborators()
-      .then(collaborators => this.collaborators = collaborators.slice(1,5));
+      .then(collaborators => this.collaborators = collaborators);
   }
 
   gotoDetail(collaborator: Collaborator) {
