@@ -1,21 +1,30 @@
 <div *ngIf="collaborator">
   <h2>Détails de {{collaborator.name}}!</h2>
-  <div class= "form-element">
-    <label>Id: </label>{{collaborator.id}}</div>
-  <div class= "form-element">
-    <label for="collab-name">Nom: </label>
-    <input id="collab-name" [(ngModel)]="collaborator.name" placeholder="name" />
+  <div>
+    <div class= "form-element">
+      <label>Id: </label>{{collaborator.id}}</div>
+    <div class= "form-element">
+      <label for="collab-name">Nom: </label>
+      <input id="collab-name" [(ngModel)]="collaborator.name" placeholder="name" />
+    </div>
+    <div class= "form-element">
+      <label for="collab-surname">Prénom: </label>
+      <input id="collab-surname" [(ngModel)]="collaborator.surname" placeholder="surname" />
+    </div>
+    <div class= "form-element">
+      <label for="collab-image">Photo: </label>
+      <input id="collab-image" type="file" (change)="onImageSelected($event)"/>
+    </div>
+    <div class="collab-image" *ngIf="collaborator.image">
+      <img [src]="collaborator.image" class="img-thumbnail img-circle"/>
+    </div>
+    <div class= "form-element">
+      <label for="collab-manager">Manager: </label>
+      <select id="collab-manager" [(ngModel)]="collaborator.manager">
+          <option></option>
+          <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
+      </select>
+    </div>
   </div>
-  <div class= "form-element">
-    <label for="collab-surname">Prénom: </label>
-    <input id="collab-surname" [(ngModel)]="collaborator.surname" placeholder="surname" />
-  </div>
-  <div class= "form-element">
-    <label for="collab-manager">Manager: </label>
-    <select id="collab-manager" [(ngModel)]="collaborator.manager">
-        <option></option>
-        <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
-    </select>
-  </div>
-  <button (click)="goBack()" *ngIf="isBackAvailable">Retour</button>
+  <button (click)="goBack()">Retour</button>
 </div>

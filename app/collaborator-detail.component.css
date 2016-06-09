@@ -35,3 +35,19 @@ button:disabled {
 .form-element label {
   width : 6em;
 }
+
+#collab-image {
+  display : inline-block;
+}
+
+.collab-image {
+  width: 100px;
+  height: 100px;
+}
+
+.collab-image image {
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
+}
