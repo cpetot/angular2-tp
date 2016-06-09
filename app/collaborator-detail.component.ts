@@ -43,7 +43,7 @@ export class CollaboratorDetailComponent implements OnInit {
   }
 
   getManagers() {
-    this._collaboratorService.getManagersForId(this.collaborator.id)
+    this._collaboratorService.getAvailableManagers(this.collaborator)
       .then(managers => this.managers = managers);
   }
 

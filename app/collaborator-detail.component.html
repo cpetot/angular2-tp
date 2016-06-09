@@ -13,6 +13,7 @@
   <div class= "form-element">
     <label for="collab-manager">Manager: </label>
     <select id="collab-manager" [(ngModel)]="collaborator.manager">
+        <option></option>
         <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
     </select>
   </div>
