@@ -3,7 +3,7 @@
   <div class="inlineDiv">
     <ul class="collaborators">
       <li *ngFor="#collaborator of collaborators"
-        [class.selected]="collaborator === collaboratorHero"
+        [class.selected]="collaborator === selectedCollaborator"
         (click)="onSelect(collaborator)">
         <span class="badge">{{collaborator.id}}</span> {{collaborator.name}}
       </li>

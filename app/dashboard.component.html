@@ -1,8 +1,8 @@
 <h3>Top Collaborateurs</h3>
 <div class="grid grid-pad">
   <div *ngFor="#collaborator of collaborators" (click)="gotoDetail(collaborator)" class="col-1-4">
-    <div class="module collaborators">
-    <img *ngIf="collaborator.image" [src]="collaborator.image" class="img-thumbnail img-circle" width="80px" height="80px"/>
+    <div class="module collaborators collab-image">
+      <img *ngIf="collaborator.image" [src]="collaborator.image" width="80px" height="80px"/>
       <h4>{{collaborator.name}} {{collaborator.surname}}</h4>
     </div>
   </div>

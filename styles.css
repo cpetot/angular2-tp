@@ -3,3 +3,14 @@ body { margin: 2em; }
 body, input[text], button { color: #888; font-family: Cambria, Georgia; }
 button { padding: 0.2em; font-size: 14px}
 * { font-family: Arial; }
+
+.collab-image img {
+  max-width: 100%;
+  max-height: auto;
+  border-radius: 50%;
+  display: inline-block;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
