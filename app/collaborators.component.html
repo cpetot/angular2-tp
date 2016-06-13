@@ -5,7 +5,7 @@
       <li *ngFor="#collaborator of collaborators"
         [class.selected]="collaborator === selectedCollaborator"
         (click)="onSelect(collaborator)">
-        <span class="badge">{{collaborator.id}}</span> {{collaborator.name}}
+        <span class="badge" [class.manager]="collaborator.isManager === true">{{collaborator.id}}</span> {{collaborator.name}}
       </li>
     </ul>
   </div>

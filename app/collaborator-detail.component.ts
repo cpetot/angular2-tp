@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from 'angular2/core';
+import { Component, Input, OnInit, OnChanges } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 
 import { Collaborator } from './collaborator';
 import { CollaboratorService } from './collaborator.service';
+
 
 @Component({
   selector: 'my-collaborator-detail',
   templateUrl: 'app/collaborator-detail.component.html',
   styleUrls: ['app/collaborator-detail.component.css']
 })
-export class CollaboratorDetailComponent implements OnInit {
+export class CollaboratorDetailComponent implements OnInit, OnChanges {
   @Input() collaborator: Collaborator;
   //Boolean permettant de savoir si l'on vient par le path ou par l'utilisation
   //du composant dans une autre page
@@ -17,6 +18,7 @@ export class CollaboratorDetailComponent implements OnInit {
   // false ==> utilisation sous forme de composant, on ne peut pas retourner à la page précédente
   isBackAvailable : boolean = false;
   managers : Collaborator[] = [];
+  collaborators : Collaborator[] = [];
 
   constructor(
     private _collaboratorService: CollaboratorService,
@@ -24,8 +26,9 @@ export class CollaboratorDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    Promise.resolve(this.getCurrentCollaborator()).then(() =>
-          this.getManagers()
+    Promise.resolve(this.getCurrentCollaborator()).then(() => {
+          this.update();
+        }
       );
   }
 
@@ -47,6 +50,14 @@ export class CollaboratorDetailComponent implements OnInit {
       .then(managers => this.managers = managers);
   }
 
+  /*
+   * Méthode permettant de retourner les collaborateurs gérée par le collaborateur courant.
+  **/
+  getManagedCollaborators() {
+    this._collaboratorService.getManagedCollaborators(this.collaborator)
+      .then(collaborators => this.collaborators = collaborators);
+  }
+
   goBack() {
     window.history.back();
   }
@@ -60,5 +71,29 @@ export class CollaboratorDetailComponent implements OnInit {
       that.collaborator.image = fileReader.result;
     };
     fileReader.readAsDataURL(file);
+  }
+
+  /**
+   * Met à jour les différentes propriétés à partir du collaborateur
+  **/
+  update() {
+    this.getManagers();
+    this.getManagedCollaborators();
+  }
+
+  ngOnChanges(changes: {[propName: string]: any}) {
+    //Lorsque l'on change la valeur de l'attribut "collaborator"
+    //on souhaite mettre à jour le composant
+    //Mais cette méthode est appelé également à la première initialisation
+    //Pour éviter un doublon d'appel, on ne met à jour le composant
+    //seulement si une valeur été initialisée auparavant
+    if (changes['collaborator'].previousValue != {}) {
+      this.update();
+    }
+  }
+
+  collabClicked(collaborator : Collaborator) {
+    this.collaborator = collaborator;
+    this.update();
   }
 }
