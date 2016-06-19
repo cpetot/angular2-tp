@@ -18,7 +18,7 @@
     </div>
 
     <div class= "form-element">
-      <label for="collab-check">est manager: </label>
+      <label for="collab-check">Est manager: </label>
       <input id="collab-check" type="checkbox" disabled [(ngModel)]="collaborator.isManager" />
     </div>
 
@@ -26,19 +26,19 @@
       <label for="collab-manager">Manager: </label>
       <select id="collab-manager" [(ngModel)]="collaborator.manager">
           <option></option>
-          <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
+          <option *ngFor="let manager of managers" [ngValue]="manager">{{manager.name}}</option>
       </select>
     </div>
 
     <div class= "form-element" *ngIf="collaborators.length > 0">
       <label for="collab-manager">Collaborateurs: </label>
       <ul id="listManagedCollaborators">
-        <li *ngFor="#collab of collaborators" (click)="collabClicked(collab)">{{collab.name}}</li>
+        <li *ngFor="let collab of collaborators" (click)="gotoDetail(collab.id)">{{collab.name}}</li>
       </ul>
     </div>
   </div>
   <div class="collab-image" *ngIf="collaborator.image">
     <img [src]="collaborator.image" class="img-thumbnail img-circle"/>
   </div>
-  <button *ngIf="isBackAvailable" (click)="goBack()">Retour</button>
+  <button (click)="goBack()">Retour</button>
 </div>

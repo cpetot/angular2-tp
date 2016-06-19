@@ -1,5 +1,5 @@
-import { Component, OnInit } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Collaborator } from './collaborator';
 import { CollaboratorService } from './collaborator.service';
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   }
 
   gotoDetail(collaborator: Collaborator) {
-    let link = ['CollaboratorDetail', { id: collaborator.id }];
+    let link = ['/detail', collaborator.id ];
     this._router.navigate(link);
   }
 }

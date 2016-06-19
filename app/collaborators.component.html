@@ -2,14 +2,14 @@
   <h2>Collaborateurs</h2>
   <div class="inlineDiv">
     <ul class="collaborators">
-      <li *ngFor="#collaborator of collaborators"
+      <li *ngFor="let collaborator of collaborators"
         [class.selected]="collaborator === selectedCollaborator"
         (click)="onSelect(collaborator)">
-        <span class="badge" [class.manager]="collaborator.isManager === true">{{collaborator.id}}</span> {{collaborator.name}}
+        <span class="badge" [class.manager]="collaborator.isManager">{{collaborator.id}}</span> {{collaborator.name}}
       </li>
     </ul>
   </div>
-  <div *ngIf="selectedCollaborator"  class="inlineDiv">
-    <my-collaborator-detail [collaborator]="selectedCollaborator"></my-collaborator-detail>
+  <div *ngIf="selectedCollaborator" class="inlineDiv">
+    <my-collaborator-detail></my-collaborator-detail>
   </div>
 </div>

@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, OnChanges } from 'angular2/core';
-import { RouteParams } from 'angular2/router';
-
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Collaborator } from './collaborator';
 import { CollaboratorService } from './collaborator.service';
 
@@ -10,38 +9,37 @@ import { CollaboratorService } from './collaborator.service';
   templateUrl: 'app/collaborator-detail.component.html',
   styleUrls: ['app/collaborator-detail.component.css']
 })
-export class CollaboratorDetailComponent implements OnInit, OnChanges {
+export class CollaboratorDetailComponent implements OnInit, OnDestroy {
   @Input() collaborator: Collaborator;
-  //Boolean permettant de savoir si l'on vient par le path ou par l'utilisation
-  //du composant dans une autre page
-  // true ==> on vient par le path, donc on peut faire un retour à la page précédente(back)
-  // false ==> utilisation sous forme de composant, on ne peut pas retourner à la page précédente
-  isBackAvailable : boolean = false;
+
+  /**
+   * Variable qui contiendra l'objet observable de la route actuelle
+   * Cela permet de ne pas recharger le composant et de le détruire
+   * Si nous changeons juste le paramètre de la page
+  **/
+  private sub : any;
+
   managers : Collaborator[] = [];
   collaborators : Collaborator[] = [];
 
   constructor(
     private _collaboratorService: CollaboratorService,
-    private _routeParams: RouteParams) {
+    private _router : Router,
+    private _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    Promise.resolve(this.getCurrentCollaborator()).then(() => {
-          this.update();
-        }
-      );
+      this.sub = this._activatedRoute.params.subscribe(params => {
+        let id = +params['id'];
+        this._collaboratorService.getCollaborator(id)
+          .then(collaborator => this.collaborator = collaborator)
+          .then(() => this.update());
+      });
   }
 
-  getCurrentCollaborator() {
-    //Si on a passé le paramètre collaborateur à notre composant par le biais du tag
-    //on ne cherche pas dans le routeParams car la valeur est déjà renseignée.
-    if(this.collaborator == undefined) {
-      let id = +this._routeParams.get('id');
-      this.isBackAvailable = true;
-      return this._collaboratorService.getCollaborator(id)
-        .then(collaborator => this.collaborator = collaborator);
-    } else {
-      return Promise.resolve(this.collaborator);
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 
@@ -81,19 +79,13 @@ export class CollaboratorDetailComponent implements OnInit, OnChanges {
     this.getManagedCollaborators();
   }
 
-  ngOnChanges(changes: {[propName: string]: any}) {
-    //Lorsque l'on change la valeur de l'attribut "collaborator"
-    //on souhaite mettre à jour le composant
-    //Mais cette méthode est appelé également à la première initialisation
-    //Pour éviter un doublon d'appel, on ne met à jour le composant
-    //seulement si une valeur été initialisée auparavant
-    if (changes['collaborator'].previousValue != {}) {
-      this.update();
-    }
-  }
+  /**
+   * Permet d'être redirigé vers le détail d'un collaborateur.
+   * La redirection est relative à l'url courante.
+   * Ce composant attendant l'id du collaborateur en dernier paramètre
+  **/
+  gotoDetail(idCollab : number) {
+    this._router.navigate(['../', idCollab], {relativeTo: this._activatedRoute});
 
-  collabClicked(collaborator : Collaborator) {
-    this.collaborator = collaborator;
-    this.update();
   }
 }

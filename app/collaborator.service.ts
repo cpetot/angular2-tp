@@ -1,4 +1,4 @@
-import { Injectable } from 'angular2/core';
+import { Injectable } from '@angular/core';
 
 import { Collaborator } from './collaborator';
 import { COLLABORATORS } from './mock-collaborators';
@@ -30,7 +30,7 @@ export class CollaboratorService {
    * Cela nous permet nottament de vérifier si l'on peut mettre un collaborateur en manager sans faire une boucle
   **/
   private hasThisManagerInHierarchy(collaborator : Collaborator, manager : Collaborator) : boolean{
-      if(collaborator === undefined) {
+      if(!collaborator) {
         return false;
       } else if(collaborator.manager === manager) {
         return true;
