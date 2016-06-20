@@ -1,50 +1,59 @@
-import { Component, Input, OnInit } from 'angular2/core';
-import { RouteParams } from 'angular2/router';
-
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Collaborator } from './collaborator';
 import { CollaboratorService } from './collaborator.service';
+
 
 @Component({
   selector: 'my-collaborator-detail',
   templateUrl: 'app/collaborator-detail.component.html',
   styleUrls: ['app/collaborator-detail.component.css']
 })
-export class CollaboratorDetailComponent implements OnInit {
+export class CollaboratorDetailComponent implements OnInit, OnDestroy {
   @Input() collaborator: Collaborator;
-  //Boolean permettant de savoir si l'on vient par le path ou par l'utilisation
-  //du composant dans une autre page
-  // true ==> on vient par le path, donc on peut faire un retour à la page précédente(back)
-  // false ==> utilisation sous forme de composant, on ne peut pas retourner à la page précédente
-  isBackAvailable : boolean = false;
+
+  /**
+   * Variable qui contiendra l'objet observable de la route actuelle
+   * Cela permet de ne pas recharger le composant et de le détruire
+   * Si nous changeons juste le paramètre de la page
+  **/
+  private sub : any;
+
   managers : Collaborator[] = [];
+  collaborators : Collaborator[] = [];
 
   constructor(
     private _collaboratorService: CollaboratorService,
-    private _routeParams: RouteParams) {
+    private _router : Router,
+    private _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    Promise.resolve(this.getCurrentCollaborator()).then(() =>
-          this.getManagers()
-      );
+      this.sub = this._activatedRoute.params.subscribe(params => {
+        let id = +params['id'];
+        this._collaboratorService.getCollaborator(id)
+          .then(collaborator => this.collaborator = collaborator)
+          .then(() => this.update());
+      });
   }
 
-  getCurrentCollaborator() {
-    //Si on a passé le paramètre collaborateur à notre composant par le biais du tag
-    //on ne cherche pas dans le routeParams car la valeur est déjà renseignée.
-    if(this.collaborator == undefined) {
-      let id = +this._routeParams.get('id');
-      this.isBackAvailable = true;
-      return this._collaboratorService.getCollaborator(id)
-        .then(collaborator => this.collaborator = collaborator);
-    } else {
-      return Promise.resolve(this.collaborator);
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 
   getManagers() {
     this._collaboratorService.getAvailableManagers(this.collaborator)
       .then(managers => this.managers = managers);
+  }
+
+  /*
+   * Méthode permettant de retourner les collaborateurs gérée par le collaborateur courant.
+  **/
+  getManagedCollaborators() {
+    this._collaboratorService.getManagedCollaborators(this.collaborator)
+      .then(collaborators => this.collaborators = collaborators);
   }
 
   goBack() {
@@ -60,5 +69,23 @@ export class CollaboratorDetailComponent implements OnInit {
       that.collaborator.image = fileReader.result;
     };
     fileReader.readAsDataURL(file);
+  }
+
+  /**
+   * Met à jour les différentes propriétés à partir du collaborateur
+  **/
+  update() {
+    this.getManagers();
+    this.getManagedCollaborators();
+  }
+
+  /**
+   * Permet d'être redirigé vers le détail d'un collaborateur.
+   * La redirection est relative à l'url courante.
+   * Ce composant attendant l'id du collaborateur en dernier paramètre
+  **/
+  gotoDetail(idCollab : number) {
+    this._router.navigate(['../', idCollab], {relativeTo: this._activatedRoute});
+
   }
 }

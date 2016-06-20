@@ -18,11 +18,23 @@
     </div>
 
     <div class= "form-element">
+      <label for="collab-check">Est manager: </label>
+      <input id="collab-check" type="checkbox" disabled [(ngModel)]="collaborator.isManager" />
+    </div>
+
+    <div class= "form-element">
       <label for="collab-manager">Manager: </label>
       <select id="collab-manager" [(ngModel)]="collaborator.manager">
           <option></option>
-          <option *ngFor="#manager of managers" [ngValue]="manager">{{manager.name}}</option>
+          <option *ngFor="let manager of managers" [ngValue]="manager">{{manager.name}}</option>
       </select>
+    </div>
+
+    <div class= "form-element" *ngIf="collaborators.length > 0">
+      <label for="collab-manager">Collaborateurs: </label>
+      <ul id="listManagedCollaborators">
+        <li *ngFor="let collab of collaborators" (click)="gotoDetail(collab.id)">{{collab.name}}</li>
+      </ul>
     </div>
   </div>
   <div class="collab-image" *ngIf="collaborator.image">

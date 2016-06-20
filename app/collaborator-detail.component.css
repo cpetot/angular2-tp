@@ -33,7 +33,7 @@ button:disabled {
 }
 
 .form-element label {
-  width : 6em;
+  width : 8em;
 }
 
 #collab-image {
@@ -44,4 +44,12 @@ button:disabled {
   display : inline-block;
   width: 200px;
   height: 200px;
+}
+
+#collab-check {
+  height : initial;
+}
+
+#listManagedCollaborators li:hover {
+  cursor: pointer;;
 }
