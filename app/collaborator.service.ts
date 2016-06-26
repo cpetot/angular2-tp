@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Collaborator } from './collaborator';
+import { Competence } from './competence';
 import { COLLABORATORS } from './mock-collaborators';
 
 @Injectable()
@@ -47,5 +48,9 @@ export class CollaboratorService {
       collaborators =>
       collaborators.filter(collab => collab.manager && collab.manager.id === collaborator.id)
     );
+  }
+
+  addCompetence(collaborator : Collaborator, competence : Competence) {
+    collaborator.addCompetence(competence);
   }
 }

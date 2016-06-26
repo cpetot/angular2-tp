@@ -4,16 +4,19 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Collaborator } from './collaborator';
 import { CollaboratorDetailComponent } from './collaborator-detail.component';
 import { CollaboratorService } from './collaborator.service';
+import { CollaboratorsPipe } from './collaborators.pipe'
 
 @Component({
-  selector: 'my-heroes',
+  selector: 'collaborators',
   templateUrl: 'app/collaborators.component.html',
   styleUrls:  ['app/collaborators.component.css'],
-  directives: [CollaboratorDetailComponent]
+  directives: [CollaboratorDetailComponent],
+  pipes: [CollaboratorsPipe]
 })
 export class CollaboratorsComponent implements OnInit {
   collaborators: Collaborator[];
   selectedCollaborator: Collaborator;
+  searchText : String = "";
 
   /**
    * Variable qui contiendra l'objet observable de la route actuelle
@@ -36,6 +39,9 @@ export class CollaboratorsComponent implements OnInit {
 
     this.sub = this._activatedRoute.params.subscribe(params => {
       let id = +params['id'];
+      if(params['searchText']) {
+        this.searchText = decodeURIComponent(params['searchText']);
+      }
       this._collaboratorService.getCollaborator(id)
         .then(collaborator => this.selectedCollaborator = collaborator);
     });
@@ -53,6 +59,10 @@ export class CollaboratorsComponent implements OnInit {
   }
 
   gotoDetail() {
-    this._router.navigate(['/collaborators', this.selectedCollaborator.id ]);
+    //On utilise {searchText:  this.searchText} pour que cette information
+    //soit considérée comme un paramètre de requête et non pas comme
+    //une partie de l'url
+    this._router.navigate(['/collaborators', this.selectedCollaborator.id,
+    {searchText:  this.searchText} ]);
   }
 }

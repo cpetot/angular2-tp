@@ -3,11 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Collaborator } from './collaborator';
 import { CollaboratorService } from './collaborator.service';
 
+import {CompetencesComponent} from './competences.component';
 
 @Component({
   selector: 'my-collaborator-detail',
   templateUrl: 'app/collaborator-detail.component.html',
-  styleUrls: ['app/collaborator-detail.component.css']
+  styleUrls: ['app/collaborator-detail.component.css'],
+  directives: [CompetencesComponent]
 })
 export class CollaboratorDetailComponent implements OnInit, OnDestroy {
   @Input() collaborator: Collaborator;
@@ -86,6 +88,5 @@ export class CollaboratorDetailComponent implements OnInit, OnDestroy {
   **/
   gotoDetail(idCollab : number) {
     this._router.navigate(['../', idCollab], {relativeTo: this._activatedRoute});
-
   }
 }
