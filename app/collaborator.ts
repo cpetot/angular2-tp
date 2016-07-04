@@ -22,4 +22,27 @@ export class Collaborator {
     this.competences.push(competence);
     return  this;
   }
+
+  isMatch(searchText : string) {
+    searchText = searchText.toUpperCase();
+    //Si le texte correspond a un nom ou a un prénom, on retourne true
+    if(this.name.toUpperCase().indexOf(searchText)!= -1
+      || this.surname.toUpperCase().indexOf(searchText)!= -1) {
+        return true;
+      }
+
+    //Sinon on va regarder parmi les compétences du collaborateur courant
+    if(this.competences) {
+      for(let comp of this.competences) {
+        if(comp) {
+          //Si il y a une correspondance, on s'arrête sinon on continue à chercher
+          if (comp.type.toUpperCase().indexOf(searchText)!= -1
+            || comp.name.toUpperCase().indexOf(searchText)!= -1) {
+              return true;
+            }
+        }
+      }
+    }
+    return false;
+  }
 }

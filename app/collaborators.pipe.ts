@@ -10,27 +10,7 @@ export class CollaboratorsPipe implements PipeTransform {
   transform(value, searchText : String) {
 
     if(value && searchText) {
-      return value.filter(collaborator => {
-        //Si le texte correspond a un nom ou a un prénom, on retourne true
-        if(collaborator.name.toUpperCase().indexOf(searchText.toUpperCase())!= -1
-          || collaborator.surname.toUpperCase().indexOf(searchText.toUpperCase())!= -1) {
-            return true;
-          }
-
-        //Sinon on va regarder parmi les compétences du collaborateur courant
-        if(collaborator.competences) {
-          for(let comp of collaborator.competences) {
-            if(comp) {
-              //Si il y a une correspondance, on s'arrête sinon on continue à chercher
-              if (comp.type.toUpperCase().indexOf(searchText.toUpperCase())!= -1
-                || comp.name.toUpperCase().indexOf(searchText.toUpperCase())!= -1) {
-                  return true;
-                }
-            }
-          }
-        }
-        return false;
-      });
+      return value.filter(collaborator =>  collaborator.isMatch(searchText) );
     } else {
       return value;
     }
