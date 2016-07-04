@@ -36,6 +36,10 @@
         <li *ngFor="let collab of collaborators" (click)="gotoDetail(collab.id)">{{collab.name}}</li>
       </ul>
     </div>
+
+    <div class= "form-element">
+      <my-competences [collaborator]="collaborator"></my-competences>
+    </div>
   </div>
   <div class="collab-image" *ngIf="collaborator.image">
     <img [src]="collaborator.image" class="img-thumbnail img-circle"/>

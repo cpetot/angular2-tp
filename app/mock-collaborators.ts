@@ -1,7 +1,8 @@
 import { Collaborator } from './collaborator';
+import { Competence } from './competence';
 
 export var COLLABORATORS: Collaborator[] = [
-  new Collaborator(11, 'Mr. Nice', 'toto', true),
+  new Collaborator(11, 'Mr. Nice', 'toto', true).addCompetence(new Competence("Développement","Java")),
   new Collaborator(12, 'Narco','titi', true),
   new Collaborator(13, 'Bombasto', 'tutu', true),
   new Collaborator(14, 'Celeritas', 'babar', true),
